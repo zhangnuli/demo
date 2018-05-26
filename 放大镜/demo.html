@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body,
+        html,
+        body,
+        div {
+            margin: 0;
+            padding: 0;
+        }
+
+        img {
+            border: none;
+        }
+
+        #box {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 350px;
+            height: 350px;
+            box-shadow: 3px 3px 3px 10px #111111;
+        }
+
+        #box img {
+            width: 100%;
+            height: 100%;
+        }
+
+        #mark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 175px;
+            height: 175px;
+            background: #000000;
+            opacity: 0.3;
+            cursor: move;
+            display: none;
+        }
+        #boxRight{
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            top:20px;
+            left: 380px; overflow: hidden;
+            display: none;
+        }
+        #boxRight img{
+            position: absolute;
+            top: 0;
+            left: 0;
+           
+            width: 200%;
+            height: 200%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box">
+        <img src="userimg.jpg" alt="">
+        <div id="mark"></div>
+        <div id="boxRight">
+            <img src="userimg-big.jpg" alt="">
+        </div>
+    </div>
+
+    <script>
+        var box = document.getElementById('box'),
+            mark = document.getElementById('mark'),
+            boxRight=document.getElementById('boxRight'),
+            img=boxRight.getElementsByTagName('img')[0];
+        box.onmouseenter = function (e) {
+            mark.style.display = 'block';
+            boxRight.style.display='block';
+            setPosition(e);
+        }
+        box.onmousemove = function (e) {
+            setPosition(e);
+        }
+        box.onmouseleave = function (e) {
+            mark.style.display = 'none';
+            boxRight.style.display='none';
+        }
+
+
+
+        function setPosition(e) {
+            let top = e.clientY - box.offsetTop - (mark.offsetHeight / 2),
+                left = e.clientX - box.offsetLeft - (mark.offsetWidth / 2);
+
+            let minl = 0,
+                mint = 0,
+                maxl = box.offsetWidth - mark.offsetWidth,
+                maxt = box.offsetHeight - mark.offsetHeight;
+            let tempL=0,tempT=0;
+            if (left < minl) {
+                mark.style.left = minl + 'px';
+                tempL=minl;
+            } else if (left > maxl) {
+                mark.style.left = maxl + 'px';
+                tempL=maxl;
+            } else {
+                mark.style.left = left + 'px';
+                tempL=left;
+            }
+
+            if (top < mint) {
+                mark.style.top = mint + 'px';
+                tempT=mint;
+            } else if (top > maxt) {
+                mark.style.top  = maxt + 'px';
+                tempT=maxt;
+            } else {
+               mark.style.top = top + 'px';
+               tempT=top;
+            }
+
+            img.style.left=-tempL*2+'px';
+            img.style.top=-tempT*2+'px';
+        }
+    </script>
+</body>
+
+</html>
